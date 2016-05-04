@@ -1,0 +1,164 @@
+﻿@model SimpleCrudeOperation.Crude
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Edit</h2>
+
+<script src="~/Scripts/jquery-2.2.3.min.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        $("#btnsubmit").click(function () {
+            debugger;
+            var opt = 0;
+            if ($("#txtname").val() == "") {
+                $("#lblname").html("Please Enter Name.").show();
+
+                opt = 1;
+            }
+
+            else
+            {
+                $("#lblname").html("Please Enter Name.").hide();
+            }
+            if ($("#txtaddress").val() == "") {
+                $("#lbladdress").html("Please Enter Address.").show();
+
+                opt = 1;
+            }
+            else
+            {
+                $("#lbladdress").html("Please Enter Address.").hide();
+            }
+
+            if ($("#txtmobilenum").val() == "") {
+                $("#lblmobilenumber").html("Please Enter Mobile Number.").show();
+
+                opt = 1;
+            }
+            else
+            {
+                $("#lblmobilenumber").html("Please Enter Mobile Number.").hide();
+            }
+            var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+            var emailaddressVal = $("#txtemail").val();
+            if ($("#txtemail").val() == "") {
+                $("#lblemail").html("Please Enter EmailId.").show();
+
+                opt = 1;
+            }
+            else if (!emailReg.test(emailaddressVal)) {
+                $("#lblemail").html("Please Enter Valid Email Address").show();
+                opt = 1;
+            }
+            else {
+
+                $("#lblemail").html("Please Enter Valid Email Address").hide();
+
+                $("#lblemail").html("Please Enter Email Id.").hide();
+
+
+            }
+
+            if(opt == 1)
+            {
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
+
+        });
+
+        $("#txtmobilenum").keypress(function (e) {
+            debugger;
+            var num = 0, leng = 0;
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+
+        });
+
+    function OnlyNumeric() {
+
+        debugger;
+        if ((event.keyCode <= 47 || event.keyCode > 57)) event.returnValue = false;
+    }
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Crude</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*<input type="text" id="txtname" name="Name" class="form-control" />*@
+                
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" ,@id="txtname" } })
+                <label id="lblname" style="color:red"></label>
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*<input type="text" id="txtemail" name="EmailId" class="form-control" />*@
+               
+                @Html.EditorFor(model => model.EmailId, new { htmlAttributes = new { @class = "form-control" ,@id= "txtemail" } })
+                <label id="lblemail" style="color:red"></label>
+                @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MobileNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*<input type="text" id="txtmobilenum" name="MobileNumber" class="form-control" />*@
+               
+                @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control" ,@id= "txtmobilenum" ,@maxlength="10" } })
+                <label id="lblmobilenumber" style="color:red"></label>
+                @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*<input type="text" id="txtaddress" name="Address" class="form-control" />*@
+                
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" ,@id= "txtaddress" } })
+                <label id="lbladdress" style="color:red"></label>
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="btnsubmit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
